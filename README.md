@@ -16,15 +16,15 @@ If you want to get inspiration or just show something directly to your clients, 
 
 ## Table of Contents
 
-- [Versions](#versions)
-- [Demo](#demo)
-- [Quick Start](#quick-start)
-- [Documentation](#documentation)
-- [File Structure](#file-structure)
-- [Browser Support](#browser-support)
-- [Resources](#resources)
-- [Reporting Issues](#reporting-issues)
-- [Licensing](#licensing)
+- [Versions]
+- [Demo]
+- [Quick Start]
+- [Documentation]
+- [File Structure]
+- [Browser Support]
+- [Resources]
+- [Reporting Issues]
+- [Licensing]
 - [Useful Links](#useful-links)
 
 ## Versions
