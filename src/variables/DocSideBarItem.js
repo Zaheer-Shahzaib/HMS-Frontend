@@ -15,7 +15,7 @@ export const DocSideBarItems=[
         name: "Home",
         icon: "ni ni-shop text-blue",
         component: Tables, 
-        layout: "/patient",
+        layout: "/Patient",
         
       },
     {
@@ -23,7 +23,7 @@ export const DocSideBarItems=[
         name: "Book Appointments",
         icon: "ni ni-book-bookmark text-blue",
         component: DocBookAppointment, 
-        layout: "/patient",
+        layout: "/Patient",
         
       },
      
@@ -32,28 +32,28 @@ export const DocSideBarItems=[
         name: "View Appointment",
         icon: "ni ni-ungroup text-blue",
         component: AppointmentHistory,
-        layout: "/patient",
+        layout: "/Patient",
       },
       {
         path: "/test report",
         name: "Test Report's",
         component: TestHistory,
         icon:"ni ni-ambulance text-blue",
-        layout: "/patient",
+        layout: "/Patient",
       },
       {
         path: "/doctor prescription",
         name: "Prescription",
         icon: "ni ni-badge text-blue",
         component: HospitalAdd,
-        layout: "/patient",
+        layout: "/Patient",
       },
       {
         path: "/medinice purchase",
         name: "Medinice",
         icon: "ni ni-check-bold text-blue",
         component: DocBookAppointment,
-        layout: "/patient",
+        layout: "/Patient",
       },
 
 ] 

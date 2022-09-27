@@ -28,7 +28,7 @@ const DoctorLayout = (props) => {
 
   const getRoutes = (DocSideBarItems) => {
     return DocSideBarItems.map((prop, key) => {
-      if (prop.layout === "/patient") {
+      if (prop.layout === "/Patient") {
         return (
           <Route
             path={prop.layout + prop.path}

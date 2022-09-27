@@ -35,7 +35,7 @@ ReactDOM.render(
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Route path="/auth" render={(props) => <AuthLayout {...props} />}></Route>
       <Route path='/hospital' render={(props)=> <Hosptiallayout {...props}/>}/>
-      <Route path='/patient' render={(props)=> <PatientLayout {...props}/>}/>
+      <Route path='/Patient' render={(props)=> <PatientLayout {...props}/>}/>
       <Redirect from="/" to="/admin/index" />
     </Switch>
   </BrowserRouter>,

@@ -55,7 +55,7 @@ const Login = () => {
   const [user, setUser] = useState("");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState(" ");
-  
+  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     userRef.current.focus();
@@ -76,14 +76,15 @@ const Login = () => {
         }
       );
       console.log(JSON.stringify(response?.data));
-      const role = response?.data?.roles;
+      const role = JSON.stringify(response?.data?.success)
       console.log(role)
-      const accessToken = response?.data?.accessToken;
+      const accessToken = JSON.stringify(response?.data?.token)
+      console.log(accessToken);
       
       setAuth({ user, pwd, role, accessToken });
       setUser("");
       setPwd("");
-      history(from, { replace: true });
+     // history(from, { replace: true });
     } catch (error) {
       if (!error.response?.status===400) {
         setErrMsg('No Server Response');
@@ -102,10 +103,10 @@ const Login = () => {
  
 
   return (
-    // <>
-    //   {success ? (
-    //      history.push('doctor/index')
-    //   ) : (
+    <>
+      {success ? (
+         history.push('Patient/home')
+      ) : (
         <Col lg="5" md="7">
           <p
             ref={errRef}
@@ -234,8 +235,8 @@ const Login = () => {
             </Col>
           </Row>
         </Col>
-    //   )}
-    // </>
+      )}
+    </>
   );
 };
 
