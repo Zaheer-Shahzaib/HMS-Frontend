@@ -32,7 +32,7 @@ import {
   Col,
 } from "reactstrap";
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useState, useEffect, useRef, useContext } from "react";
 import { useLocation ,} from "react-router-dom";
 import useAuth from "Hooks/useAuth";
@@ -229,9 +229,11 @@ const Login = () => {
               </a>
             </Col>
             <Col className="text-right" xs="6">
-              <a className="text-light" >
+              <Link to={'auth/register'}>
+              <a className="text-light">
                 <small>Create new account</small>
               </a>
+              </Link>
             </Col>
           </Row>
         </Col>
