@@ -90,7 +90,7 @@ const pageNumbers = [...Array(nPages + 1).keys()].slice(1)
                 <thead className="thead-light">
                   <tr>
                     <th scope="col">Sr No</th>
-                    <th scope="col">Patient Name</th>
+                    <th scope="col">Doctor Name</th>
                     <th scope="col">Email</th>
                     <th scope="col">Phone</th>
                     <th scope="col">Users Role</th>

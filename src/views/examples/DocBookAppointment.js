@@ -16,24 +16,22 @@ import {
 import { useEffect } from "react";
 import axios from "api/axios";
 import AsyncSelect from "react-select/async";
-import Form from 'react-bootstrap/Form';
+import Form from "react-bootstrap/Form";
 const DocBookAppointment = () => {
- 
-
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () =>{
+    const fetchData = async () => {
       setLoading(true);
       try {
-        const {data: response} = await axios.get('/api/v1/users');
+        const { data: response } = await axios.get("/api/v1/users");
         setData(response);
       } catch (error) {
         console.error(error.message);
       }
       setLoading(false);
-    }
+    };
 
     fetchData();
   }, []);
@@ -59,7 +57,7 @@ const DocBookAppointment = () => {
                 onChange={handleChange}
                 loadOptions={fetchData}
               /> */}
-               {loading && <div>Loading</div>}
+              {/* {loading && <div>Loading</div>}
     {!loading && (
     <Form.Select aria-label="Default select example" role="form">
        
@@ -68,14 +66,22 @@ const DocBookAppointment = () => {
         ))}
         </Form.Select>
 
-    )}
-      <option className="form-control ">Open this select menu</option>       
-     
-      {/* {data.map((user)=>{
-         <option value={user.fullname} key={user.id}>{user.fullname}</option>
-      })} */}
-      
-   
+    )} */}
+              <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+                <Label for="exampleSelect">Select Doctor</Label>
+
+                {loading && <div>Loading</div>}
+                {!loading && (
+                  <Input type="select" name="select" id="exampleSelect">
+                    {data.map((item) => (
+                      <option value={item.fullname} key={item.id}>
+                        {item.fullname}
+                      </option>
+                    ))}
+                  </Input>
+                )}
+              </FormGroup>
+
               <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                 <Label className=" text-capitalize text-black">Date</Label>
                 <InputGroup className="input-group-alternative mb-3">

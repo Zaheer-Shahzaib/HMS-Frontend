@@ -95,13 +95,13 @@ const Hosptiallay = (props) => {
         /> 
       */}
         <Switch>
-         <RequireAuth>
-          <AuthProvider.Auth >
+         {/* <RequireAuth>
+          <AuthProvider.Auth > */}
           {getRoutes(HospitalSideBarItem)}
           <Redirect from="*" to="/auth/login" />
-          </AuthProvider.Auth>
+          {/* </AuthProvider.Auth>
         
-         </RequireAuth>
+         </RequireAuth> */}
         </Switch>
         <Container fluid>
           <AdminFooter />

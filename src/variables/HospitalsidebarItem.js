@@ -7,6 +7,7 @@ import Icons from "views/examples/Icons.js";
 import {FaBeer} from 'react-icons/fa'
 import HospitalAdd from "views/examples/HospitalAdd";
 import DoctorList from "views/examples/listdoctor";
+import CreateSchedule from "views/examples/createSchedule";
 export const HospitalSideBarItem=[
     {
         path: "/index",
@@ -22,6 +23,13 @@ export const HospitalSideBarItem=[
         name: "Doctor List",
         icon: "ni ni-ungroup text-blue",
         component: DoctorList,
+        layout: "/hospital",
+      },
+      {
+        path: "/createSchedule",
+        name: "Create Schedule",
+        icon: "ni ni-ungroup text-blue",
+        component: CreateSchedule,
         layout: "/hospital",
       },
       {
