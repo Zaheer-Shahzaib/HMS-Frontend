@@ -16,7 +16,8 @@
 
 */
 import React from "react";
-import { useLocation, Route, Switch, Redirect } from "react-router-dom";
+import { useLocation, Route, Switch, Routes, Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 // reactstrap components
 import { Container } from "reactstrap";
 // core components

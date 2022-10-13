@@ -35,7 +35,7 @@ import {
 
 import { useEffect, useRef, useState } from "react";
 import axios from "api/axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation, useNavigate } from "react-router-dom";
 
 const aler = () => {
   alert("We are Working on it Please sign up with credentials");

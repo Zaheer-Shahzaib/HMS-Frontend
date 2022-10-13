@@ -16,7 +16,8 @@
 
 */
 import React from "react";
-import { useLocation, Route, Switch, Redirect } from "react-router-dom";
+import { useLocation, Route, Switch, Redirect, Routes } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
@@ -30,6 +31,7 @@ import UserHeader from "components/Headers/UserHeader";
 import HosptialNavBar from "components/Navbars/HosNavBar";
 import Auth from "./Auth";
 import { AuthProvider } from "context/authProvider";
+import RequireAuth from "RequiredAuth";
 
 
 
@@ -93,10 +95,13 @@ const Hosptiallay = (props) => {
         /> 
       */}
         <Switch>
-          <AuthProvider>
+         <RequireAuth>
+          <AuthProvider.Auth >
           {getRoutes(HospitalSideBarItem)}
-          <Redirect from="*" to="/hospital/login" />
-          </AuthProvider>
+          <Redirect from="*" to="/auth/login" />
+          </AuthProvider.Auth>
+        
+         </RequireAuth>
         </Switch>
         <Container fluid>
           <AdminFooter />

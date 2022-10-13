@@ -17,7 +17,15 @@
 */
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Switch,
+  Redirect,
+  Navigate,
+  Routes,
+  Router,
+} from "react-router-dom";
 
 import "assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -26,18 +34,41 @@ import "assets/scss/argon-dashboard-react.scss";
 import AdminLayout from "layouts/Admin.js";
 import AuthLayout from "layouts/Auth.js";
 import Hosptiallayout from "layouts/Hospital";
-import { AuthProvider } from "context/authProvider";
+
 import Register from "views/examples/Register";
-import PatientLayout from "layouts/Patient"
+import PatientLayout from "layouts/Patient";
+import RequireAuth from "RequiredAuth";
+import { AuthProvider } from "context/authProvider";
+
+
+const role=[
+  'hospital',
+  'Patient',
+  'Admin',
+  'Doctor'
+]
+
 ReactDOM.render(
   <BrowserRouter>
     <Switch>
-      <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
-      <Route path="/auth" render={(props) => <AuthLayout {...props} />}></Route>
-      <Route path='/hospital' render={(props)=> <Hosptiallayout {...props}/>}/>
-      <Route path='/Patient' render={(props)=> <PatientLayout {...props}/>}/>
+      <Route
+        path="/admin"
+        render={(props) => <AdminLayout {...props} />}
+      ></Route>
+      <Route path="/auth" render={(props) => <AuthLayout {...props} />}>
+
+      </Route>
+{/* <RequireAuth  allowedRoles ={role[0]} >
+  <AuthProvider valu> */}
+  <Route path="/hospital" render={(props) => <Hosptiallayout {...props} />}/>
+  {/* </AuthProvider>
+</RequireAuth> */}
+     
+      <Route path="/patient" render={(props) => <PatientLayout {...props} />} />
       <Redirect from="/" to="/admin/index" />
     </Switch>
+    
   </BrowserRouter>,
+
   document.getElementById("root")
 );

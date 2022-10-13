@@ -1,5 +1,6 @@
 import React from "react";
-import { useLocation, Route, Switch, Redirect } from "react-router-dom";
+import { useLocation, Route, Switch, Redirect, Routes } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
@@ -77,7 +78,7 @@ const DoctorLayout = (props) => {
       */}
         <Switch>
           {getRoutes(DocSideBarItems)}
-          <Redirect from="*" to="/admin/index" />
+          {/* <Redirect from="*" to="/admin/index" /> */}
         </Switch>
         <Container fluid>
           <AdminFooter />

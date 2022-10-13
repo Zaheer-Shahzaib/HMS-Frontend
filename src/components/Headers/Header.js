@@ -28,7 +28,7 @@ import {
   CardText,
   Button,
 } from "reactstrap";
-import { Link, NavLink, Route, useHistory } from "react-router-dom";
+import { Link, NavLink, Route, useHistory, useNavigate } from "react-router-dom";
 import routes from "routes";
 import Login from "views/examples/Login";
 
@@ -53,7 +53,6 @@ const getRoutes = (routes) => {
 
 const Header = () => {
   const history = useHistory();
-
   return (
     <>
       {headerItems.map((data) => {
@@ -75,7 +74,7 @@ const Header = () => {
                 <Button
                   color="primary"
                   onClick={function clicked() {
-                    history.push("/auth/login");
+              history.push("/auth/login");
                     localStorage.setItem('role',`${data.name}`)
                   }}
                 >

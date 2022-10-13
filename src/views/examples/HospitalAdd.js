@@ -19,7 +19,7 @@ import {
 } from "reactstrap";
 import axios from "api/axios";
 import { useEffect, useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
+import {  useHistory, useNavigate } from "react-router-dom";
 
 const HospitalAdd = () => {
   const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;

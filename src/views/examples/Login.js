@@ -32,7 +32,7 @@ import {
   Col,
 } from "reactstrap";
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useNavigate ,Redirect,Route} from "react-router-dom";
 import { useState, useEffect, useRef, useContext } from "react";
 import { useLocation ,} from "react-router-dom";
 import useAuth from "Hooks/useAuth";
@@ -80,11 +80,12 @@ const Login = () => {
       console.log(role)
       const accessToken = JSON.stringify(response?.data?.token)
       console.log(accessToken);
-      
-      setAuth({ user, pwd, role, accessToken });
+      console.log(user,pwd);
+      setAuth({ user, pwd, data, accessToken });
+     
       setUser("");
       setPwd("");
-     // history(from, { replace: true });
+      history.replace(from);
     } catch (error) {
       if (!error.response?.status===400) {
         setErrMsg('No Server Response');
@@ -94,19 +95,17 @@ const Login = () => {
         setErrMsg("Unauthorized User");
       } else {
         setErrMsg("Login");
+        setSuccess(true)
       }
-     
-      errRef.current.focus();
     }
+    errRef.current.focus();
+   
   };
 
  
-
   return (
     <>
-      {success ? (
-         history.push('Patient/home')
-      ) : (
+     
         <Col lg="5" md="7">
           <p
             ref={errRef}
@@ -214,6 +213,7 @@ const Login = () => {
                     color="primary"
                     type="button"
                     onClick={handleSubmit}
+                  
                     
                   >
                     Sign in
@@ -237,7 +237,7 @@ const Login = () => {
             </Col>
           </Row>
         </Col>
-      )}
+     
     </>
   );
 };

@@ -1,269 +1,152 @@
-
-import React  from "react";
+import React, { useState } from "react";
 import {
-    Badge,
-    Card,
-    CardHeader,
-    CardFooter,
-    DropdownMenu,
-    DropdownItem,
-    UncontrolledDropdown,
-    DropdownToggle,
-    Media,
-    Pagination,
-    PaginationItem,
-    PaginationLink,
-    Progress,
-    Table,
-    Row,
-    UncontrolledTooltip,
-    Button,
-  } from "reactstrap";
+  Badge,
+  Card,
+  CardHeader,
+  CardFooter,
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledDropdown,
+  DropdownToggle,
+  Media,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+  Progress,
+  Table,
+  Row,
+  UncontrolledTooltip,
+  Button,
+} from "reactstrap";
 import { Container } from "reactstrap";
 import { DataHTMLAttributes } from "react";
 import PatientHeader from "components/Headers/Patient";
 
-const AppointmentHistory =()=>{
-  return(
+import axios from "api/axios";
+import { useEffect } from "react";
+
+const AppointmentHistory = () => {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(4);
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const currentRecords = data.slice(indexOfFirstRecord, indexOfLastRecord);
+  const nPages = Math.ceil(data.length / recordsPerPage);
+
+  
+  const nextPage = () => {
+    if(currentPage !== nPages) setCurrentPage(currentPage + 1)
+}
+const prevPage = () => {
+if(currentPage !== 1) setCurrentPage(currentPage - 1)
+}
+
+const pageNumbers = [...Array(nPages + 1).keys()].slice(1)
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const { data: response } = await axios.get("/api/v1/users");
+        setData(response);
+      } catch (error) {
+        console.error(error.message);
+      }
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  const deleteuser=(id, e) => {  
+    axios.delete(`/api/v1/users/${id}`)  
+      .then(res => {  
+        console.log(res);  
+        console.log(res.data);  
+        const posts =data.filter(item => item.id !== id);  
+        setData({ posts });  
+      })  
+    }
+
+  return (
     <>
-   <PatientHeader/>
-    <Container className="mt--5">
-    
-  {/* Table */}
+      <PatientHeader />
+
+      <Container className="mt--5">
+        {/* Table */}
         <Row>
           <div className="col">
             <Card className="shadow">
               <CardHeader className="border-0">
                 <h3 className="mb-0">Appointment's</h3>
               </CardHeader>
-              <Table className="align-items-center table-flush" responsive>
+              <Table
+                className="align-items-center table-flush table-striped"
+                responsive
+              >
                 <thead className="thead-light">
                   <tr>
+                    <th scope="col">Sr No</th>
                     <th scope="col">Patient Name</th>
-                    <th scope="col">Doctor Name</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Users</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Users Role</th>
                     <th scope="col">Fee</th>
                     <th scope="col">Status</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">
-                      <Media className="align-items-center">
-                        <a
-                          className="avatar rounded-circle mr-2"
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <img
-                            alt="..."
-                            src={
-                              require("../../assets/img/theme/profile-cover.jpg")
-                                .default
-                            }
-                          />
-                        </a>
-                        <Media>
-                          <span className="mb-0 text-sm">
-                           Robertson Allen
-                          </span>
-                        </Media>
-                      </Media>
-                    </th>
-                    <td>Dr. Bruce</td>
-                    <td>
-                      <span>27/2/2000</span>
-                    </td>
-                    <td>
-                      <span>Dummy</span>
-                    </td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">1000<strong>  Fee</strong></span>
-                        
-                      </div>
-                    </td>
-                    <td className="text-right">
-                      <UncontrolledDropdown>
-                        <DropdownToggle
-                          className="btn-icon-only text-light"
-                          href="#pablo"
-                          role="button"
-                          size="sm"
-                          color=""
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <i className="fas fa-ellipsis-v" />
-                        </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-arrow" right>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                           View
-                          </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                           Pending
-                          </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            Delete
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      <Media className="align-items-center">
-                        <a
-                          className="avatar rounded-circle mr-2"
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <img
-                            alt="..."
-                            src={
-                              require("../../assets/img/theme/profile-cover.jpg")
-                                .default
-                            }
-                          />
-                        </a>
-                        <Media>
-                          <span className="mb-0 text-sm">
-                           Robertson Allen
-                          </span>
-                        </Media>
-                      </Media>
-                    </th>
-                    <td>Dr. Bruce</td>
-                    <td>
-                      <span>27/2/2000</span>
-                    </td>
-                    <td>
-                      <span>Dummy</span>
-                    </td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">1000<strong>  Fee</strong></span>
-                        
-                      </div>
-                    </td>
-                    <td className="text-right">
-                      <UncontrolledDropdown>
-                        <DropdownToggle
-                          className="btn-icon-only text-light"
-                          href="#pablo"
-                          role="button"
-                          size="sm"
-                          color=""
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <i className="fas fa-ellipsis-v" />
-                        </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-arrow" right>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                           View
-                          </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                           Pending
-                          </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            Delete
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </td>
-                  </tr>
-               
-                  <tr>
-                    <th scope="row">
-                      <Media className="align-items-center">
-                        <a
-                          className="avatar rounded-circle mr-2"
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <img
-                            alt="..."
-                            src={
-                              require("../../assets/img/theme/profile-cover.jpg")
-                                .default
-                            }
-                          />
-                        </a>
-                        <Media>
-                          <span className="mb-0 text-sm">
-                           Robertson Allen
-                          </span>
-                        </Media>
-                      </Media>
-                    </th>
-                    <td>Dr. Bruce</td>
-                    <td>
-                      <span>27/2/2000</span>
-                    </td>
-                    <td>
-                      <span>Dummy</span>
-                    </td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">1000<strong>  Fee</strong></span>
-                        
-                      </div>
-                    </td>
-                    <td className="text-right">
-                      <UncontrolledDropdown>
-                        <DropdownToggle
-                          className="btn-icon-only text-light"
-                          href="#pablo"
-                          role="button"
-                          size="sm"
-                          color=""
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <i className="fas fa-ellipsis-v" />
-                        </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-arrow" right>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                           View
-                          </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                           Pending
-                          </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}
-                          >
-                            Delete
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </td>
-                  </tr>
-               
-                </tbody>
+
+                {loading && <div>Loading</div>}
+                {!loading && (
+                  <tbody>
+                    {currentRecords.map((user) => (
+                      <tr key={user.id} className="table-primary">
+                        <td className="bg-danger">{user.id}</td>
+                        <td>{user.fullname}</td>
+                        <td>{user.email}</td>
+                        <td>{user.phone}</td>
+                        <td>{user.RoleId}</td>
+                        <td>1000</td>
+                        <td className="text-right">
+                          <UncontrolledDropdown>
+                            <DropdownToggle
+                              className="btn-icon-only text-light"
+                              href="#pablo"
+                              role="button"
+                              size="sm"
+                              color=""
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              <i className="fas fa-ellipsis-v" />
+                            </DropdownToggle>
+                            <DropdownMenu className="dropdown-menu-arrow" right>
+                              <DropdownItem
+                                href="#pablo"
+                                onClick={(e) => e.preventDefault()}
+                              >
+                                View
+                              </DropdownItem>
+                              <DropdownItem
+                                href="#pablo"
+                                onClick={(e) => e.preventDefault()}
+                              >
+                                Pending
+                              </DropdownItem>
+                              <DropdownItem
+                                href="#pablo"
+                                onClick={(e) => deleteuser(user.id,e)}
+                              >
+                                Delete
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </UncontrolledDropdown>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                )}
               </Table>
               <CardFooter className="py-4">
                 <nav aria-label="...">
@@ -271,29 +154,39 @@ const AppointmentHistory =()=>{
                     className="pagination justify-content-end mb-0"
                     listClassName="justify-content-end mb-0"
                   >
-                    <PaginationItem className="disabled">
+                    <PaginationItem>
                       <PaginationLink
                         href="#pablo"
-                        onClick={(e) => e.preventDefault()}
+                        onClick={prevPage}
                         tabIndex="-1"
                       >
                         <i className="fas fa-angle-left" />
                         <span className="sr-only">Previous</span>
                       </PaginationLink>
                     </PaginationItem>
-                    <PaginationItem className="active">
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
-                        1
-                      </PaginationLink>
+                    {pageNumbers.map(pgNumber => (
+                    <li key={pgNumber} 
+                        className= {`page-item ${currentPage == pgNumber ? 'active' : ''} `} >
+
+                        <a onClick={() => setCurrentPage(pgNumber)}  
+                            className='page-link' 
+                            href='#'>
+                            
+                            {pgNumber}
+                        </a>
+                    </li>
+                ))}
+                    {/* <PaginationItem className="active">
+                      // <PaginationLink
+                      //   href="#pablo"
+                      //   onClick={(e) => e.preventDefault()}
+                      // >
+                      // {currentPage}
+                     
+                      // </PaginationLink>
                     </PaginationItem>
                     <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}
-                      >
+                      <PaginationLink onClick={(e) => e.preventDefault()}>
                         2 <span className="sr-only">(current)</span>
                       </PaginationLink>
                     </PaginationItem>
@@ -304,11 +197,11 @@ const AppointmentHistory =()=>{
                       >
                         3
                       </PaginationLink>
-                    </PaginationItem>
+                    </PaginationItem> */}
                     <PaginationItem>
                       <PaginationLink
                         href="#pablo"
-                        onClick={(e) => e.preventDefault()}
+                        onClick={nextPage}
                       >
                         <i className="fas fa-angle-right" />
                         <span className="sr-only">Next</span>
@@ -320,9 +213,8 @@ const AppointmentHistory =()=>{
             </Card>
           </div>
         </Row>
-    </Container>
-    
+      </Container>
     </>
-  )
-}
-export default AppointmentHistory
+  );
+};
+export default AppointmentHistory;
