@@ -80,9 +80,8 @@ const Login = () => {
       console.log(role)
       const accessToken = JSON.stringify(response?.data?.token)
       console.log(accessToken);
-      console.log(user,pwd);
+      //console.log(user,pwd);
       setAuth({ user, pwd, data, accessToken });
-     
       setUser("");
       setPwd("");
       history.replace(from);

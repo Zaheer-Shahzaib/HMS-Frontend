@@ -50,7 +50,7 @@ const pageNumbers = [...Array(nPages + 1).keys()].slice(1)
       setLoading(true);
       try {
         const { data: response } = await axios.get("/api/v1/users");
-        console.log(response);
+        console.log(response.data.users);
         setData(response);
       } catch (error) {
         console.error(error.message);
@@ -66,7 +66,7 @@ const pageNumbers = [...Array(nPages + 1).keys()].slice(1)
       .then(res => {  
         console.log(res);  
         console.log(res.data);  
-        const posts =currentRecords.filter(item => item.id !== id);  
+        const posts =data.filter(item => item.id !== id);  
         setData(posts);  
       })  
     }

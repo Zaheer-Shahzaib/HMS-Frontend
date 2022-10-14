@@ -58,11 +58,11 @@ ReactDOM.render(
       <Route path="/auth" render={(props) => <AuthLayout {...props} />}>
 
       </Route>
-{/* <RequireAuth  allowedRoles ={role[0]} >
-  <AuthProvider valu> */}
+<RequireAuth  allowedRoles ={role[0]} >
+  <AuthProvider >
   <Route path="/hospital" render={(props) => <Hosptiallayout {...props} />}/>
-  {/* </AuthProvider>
-</RequireAuth> */}
+  </AuthProvider>
+</RequireAuth>
      
       <Route path="/patient" render={(props) => <PatientLayout {...props} />} />
       <Redirect from="/" to="/admin/index" />

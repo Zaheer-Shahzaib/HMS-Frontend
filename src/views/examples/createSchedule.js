@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Card,
@@ -25,13 +25,13 @@ import HospitalHeader from "components/Headers/HospitalHeader";
 
 const CreateSchedule = () => {
   const day = [
-    { id: "1", name: "Monday" },
-    { id: "2", name: "Tuesday" },
-    { id: "3", name: "Wednesday" },
-    { id: "4", name: "Thursday" },
-    { id: "5", name: "Friday" },
-    { id: "6", name: "Saturday" },
-    { id: "7", name: "Sunday" },
+    {  name: "Monday" },
+    {  name: "Tuesday" },
+    {  name: "Wednesday" },
+    {  name: "Thursday" },
+    {  name: "Friday" },
+    {  name: "Saturday" },
+    {  name: "Sunday" },
   ];
   //   const [loading, setLoading] = useState(true);
   //   const [data, setData] = useState([]);
@@ -39,7 +39,8 @@ const CreateSchedule = () => {
   //     setLoading(false)
   //     setData(day)
   //   },[])
-
+  const errRef = useRef();
+  const userRef = useRef();
   ////////////addding multiple dropdown///////////
   const [optionData, setoptionData] = useState([]);
   const onSelect = (selectedList, selectedItem) => {
@@ -48,17 +49,84 @@ const CreateSchedule = () => {
   const onRemove = (selectedList, removedItem) => {
     setoptionData(selectedList);
   };
+
+  const [starttime, setStartTime] = useState("");
+  const [endtime, setEndTime] = useState("");
+  const [date, setDate] = useState("");
+  const [startBreak, setStartBreak] = useState("");
+  const [user, setUser] = useState("");
+  const [errMsg, setErrMsg] = useState("");
+
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  //   useEffect(() => {
+  //     const fetchData = async () => {
+  //       setLoading(true);
+  //       try {
+  //         const { data: response } = await axios.get("/api/v1/users");
+  //         setData(response);
+  //       } catch (error) {
+  //         console.error(error.message);
+  //       }
+  //       setLoading(false);
+  //     };
+
+  //     fetchData();
+  //   }, []);
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [date, endtime]);
+
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post(
+        "/api/v1/schedule/createschedule",
+    
+        {
+          userId:'16',
+          startTime: starttime,
+          endTime: endtime,
+          date: date,
+          breakTime: startBreak,
+          days: optionData,
+        },
+        {
+          Headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+    // console.log(JSON.stringify(response.data));
+    //   console.log(role[0].User.fullName)
+    } catch (error) {
+        if (!error.response?.status===400) {
+            setErrMsg('No Server Response');
+        }
+      else if (starttime || endtime || date || startBreak === "") {
+        setErrMsg("Please Fill all requirments");
+      } else {
+        console.log("data");
+      }
+      errRef.current.focus();
+    }
+  };
+
   return (
     <>
       <HospitalHeader />
       <Col lg="12" md="" className=" center col">
         <Card className="bg-gray  shadow border-0 mt--5">
           <p
-            //   ref={errRef}
-            //  className={errMsg ? "errmsg" : "offscreen"}
+            ref={errRef}
+            className={errMsg ? "errmsg" : "offscreen"}
             aria-live="assertive"
           >
-            {/* ///  {errMsg} */}
+            {errMsg}
           </p>
           <CardHeader className="bg-transparent border-0">
             <h3 className=" text-white mb-0">Create Schedule</h3>
@@ -77,7 +145,7 @@ const CreateSchedule = () => {
                       </InputGroupAddon>
 
                       <Input
-                        //   ref={userRef}
+                        ref={userRef}
                         // onChange={(e) =>setName(e.target.value)}
                         //  value={name}
                         required
@@ -101,8 +169,8 @@ const CreateSchedule = () => {
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        //   onChange={(e) => setPhone(e.target.value)}
-                        //   value={phone}
+                        onChange={(e) => setStartTime(e.target.value)}
+                        value={starttime}
                         required
                         placeholder="Start Time"
                         type="time"
@@ -127,8 +195,8 @@ const CreateSchedule = () => {
                       </InputGroupAddon>
                       <Input
                         id="endtime"
-                        //   onChange={(e) => setPwd(e.target.value)}
-                        //   value={pwd}
+                        onChange={(e) => setEndTime(e.target.value)}
+                        value={endtime}
                         required
                         placeholder="End Time"
                         type="Time"
@@ -154,8 +222,8 @@ const CreateSchedule = () => {
                         </InputGroupText>
                       </InputGroupAddon>
                       <Input
-                        //  onChange={(e) => setState(e.target.value)}
-                        //  value={state}
+                        onChange={(e) => setStartBreak(e.target.value)}
+                        value={startBreak}
                         required
                         enterKeyHint="Start time"
                         type="time"
@@ -198,8 +266,8 @@ const CreateSchedule = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    //   onChange={(e) => setDOB(e.target.value)}
-                    //   value={DOB}
+                    onChange={(e) => setDate(e.target.value)}
+                    value={date}
                     required
                     placeholder="e.g 27/02/1986"
                     type="date"
@@ -212,13 +280,18 @@ const CreateSchedule = () => {
 
               <FormGroup className="mb-2 mr-sm-2 mb-sm-0 ml--2">
                 <Label for="exampleSelect">Select Doctor</Label>
+                {optionData.map((item) => {
+                  
+                })}
                 <Multiselect
-                  className="bg-"
-                  options={day}
-                  onSelect={onSelect}
-                  onRemove={onRemove}
-                  displayValue="name"
-                />
+                    className="bg-white"
+                    options={day}
+                    onChange={(e) => setoptionData(e.target.displayValue)}
+                  //  value={item.name}
+                    onSelect={onSelect}
+                    onRemove={onRemove}
+                    displayValue="name"
+                  />;
               </FormGroup>
 
               <div className="text-center">
@@ -226,7 +299,7 @@ const CreateSchedule = () => {
                   className="mt-4"
                   color="primary"
                   type="button"
-                  //onClick={onHandleSubmit}
+                  onClick={handleSubmit}
                   //  disabled={!validName || !validPwd || !validMatch ? true : false}
                 >
                   Add Doctor
